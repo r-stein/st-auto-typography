@@ -15,7 +15,7 @@ def _get_transformation_map():
     if hasattr(_get_transformation_map, "result"):
         return _get_transformation_map.result
 
-    transformation_map = defaultdict(lambda: defaultdict(lambda: []))
+    transformation_map = defaultdict(lambda: {})
     inverse_transformation_map = defaultdict(lambda: [])
 
     loaded_typography = load_resource()["default"]
@@ -50,7 +50,7 @@ def _get_transformation_map():
             inverse_transformation_map[s[::-1]].append(k)
 
     _get_transformation_map.result = (
-        transformation_map, inverse_transformation_map)
+        dict(transformation_map), dict(inverse_transformation_map))
 
     return _get_transformation_map.result
 

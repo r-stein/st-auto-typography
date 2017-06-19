@@ -57,7 +57,7 @@ class AutoTypographyContextListener(AbstractAutoTypographyContext):
         return result
 
     def _ctx_is_prefixed(self, view, sel, keys, *args):
-        character = keys[0][-1:]
+        character = ".".join(keys)[-1:]
         line_before = self.__get_string_before(view, sel.b, "line")
         result = any(
             line_before.startswith(prefix)
