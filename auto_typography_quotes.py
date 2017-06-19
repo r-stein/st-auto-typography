@@ -110,7 +110,7 @@ class AutoTypographySetQuoteTypesCommand(sublime_plugin.WindowCommand):
         window = self.window
         quotes = get_quote_resource()
         self.entries = [["Disable", "-"]]
-        self.entries += [[k, " ".join(v)] for k, v in quotes.items()]
+        self.entries += [[k, " ".join(v)] for k, v in sorted(quotes.items())]
         window.show_quick_panel(self.entries, self.on_done)
 
     def on_done(self, index):
