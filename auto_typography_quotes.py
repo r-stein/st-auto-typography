@@ -105,6 +105,21 @@ class AutoTypographyQuotesCommand(sublime_plugin.TextCommand):
                 view.insert(edit, pos, qopen)
 
 
+class AutoTypographySetQuoteTypesCommand(sublime_plugin.WindowCommand):
+    def run(self):
+        window = self.window
+        quotes = get_quote_resource()
+        self.entries = [[k, " ".join(v)] for k, v in quotes.items()]
+        window.show_quick_panel(self.entries, self.on_done)
+
+    def on_done(self, index):
+        if index == -1:
+            return
+        quote_type = self.entries[index][0]
+        view = self.window.active_view()
+        set_quotes(view, quote_type)
+
+
 class AutoTypographyQuotesContext(AbstractAutoTypographyContext):
     key_prefix = "auto_typography_quotes"
 
