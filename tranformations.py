@@ -7,6 +7,13 @@ _transformation_map = defaultdict(lambda: defaultdict(lambda: []))
 _inverse_transformation_map = defaultdict(lambda: [])
 
 
+def load_resource():
+    res = sublime.find_resources("auto_typography.yaml")[0]
+    res_content = sublime.load_resource(res)
+    resource = yaml.load(res_content)
+    return resource
+
+
 def get_transformation_map():
     return _transformation_map
 
@@ -16,9 +23,7 @@ def get_inverse_transformation_map():
 
 
 def plugin_loaded():
-    res = sublime.find_resources("auto_typography.yaml")[0]
-    res_content = sublime.load_resource(res)
-    loaded_typography = yaml.load(res_content)["default"]
+    loaded_typography = load_resource()["default"]
 
     typography = defaultdict(lambda: [])
     # flatten the typography
@@ -51,5 +56,5 @@ def plugin_loaded():
 
     for k, v in typography.items():
         for s in v:
-            _inverse_transformation_map[s[::-1]] = k
+            _inverse_transformation_map[s[::-1]].append(k)
     print("_inverse_transformation_map:", _inverse_transformation_map)
