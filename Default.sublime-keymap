@@ -1,0 +1,41 @@
+[
+    {
+        "keys": ["."], "command": "auto_typography", "args": {"character": "."},
+        "context": [
+            { "key": "auto_typography.valid_scope"},
+            { "key": "auto_typography.is_prefixed.value=."},
+        ],
+    },
+    {
+        "keys": [">"], "command": "auto_typography", "args": {"character": ">"},
+        "context": [
+            { "key": "auto_typography.valid_scope"},
+            { "key": "auto_typography.is_prefixed.value=>"},
+        ],
+    },
+    {
+        "keys": ["-"], "command": "auto_typography", "args": {"character": "-"},
+        "context": [
+            { "key": "auto_typography.valid_scope"},
+            { "key": "auto_typography.is_prefixed.value=-"},
+        ],
+    },
+    {
+        "keys": ["ctrl+k", "alt+a"],
+        "command": "auto_typography",
+    },
+    {
+        "keys": ["ctrl+k", "alt+shift+a"],
+        "command": "auto_typography_unpack",
+    },
+    {
+        "keys": ["backspace"],
+        "command": "auto_typography_unpack",
+        "context":
+        [
+            { "key": "auto_typography.valid_scope"},
+            { "key": "auto_typography.unpack_backwards"},
+        ],
+    },
+
+]
