@@ -109,22 +109,34 @@ class AutoTypographySetQuoteTypesCommand(sublime_plugin.WindowCommand):
     def run(self):
         window = self.window
         quotes = get_quote_resource()
-        self.entries = [[k, " ".join(v)] for k, v in quotes.items()]
+        self.entries = [["Disable", "-"]]
+        self.entries += [[k, " ".join(v)] for k, v in quotes.items()]
         window.show_quick_panel(self.entries, self.on_done)
 
     def on_done(self, index):
         if index == -1:
             return
-        quote_type = self.entries[index][0]
         view = self.window.active_view()
+        if index == 0:
+            view.settings().set("auto_typography.enable_quotes", False)
+            return
+        elif view.settings().get("auto_typography.enable_quotes") is False:
+            view.settings().erase("auto_typography.enable_quotes")
+        quote_type = self.entries[index][0]
         set_quotes(view, quote_type)
 
 
 class AutoTypographyQuotesContext(AbstractAutoTypographyContext):
     key_prefix = "auto_typography_quotes"
 
+    def _ctx_is_enabled(self, view, sel, *args):
+        view_setting = view.settings().get("auto_typography.enable_quotes")
+        if isinstance(view_setting, bool):
+            return view_setting
+        settings = sublime.load_settings("AutoTypography.sublime-settings")
+        return settings.get("enable_quotes", True)
+
     def _ctx_inside_quotes(self, view, sel, keys, *args):
-        print("keys:", keys)
         if not sel.empty():
             return False
         pos = sel.b

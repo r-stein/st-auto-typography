@@ -21,6 +21,8 @@
         "command": "auto_typography_quotes",
         "context":
         [
+            { "key": "setting.is_widget", "operator": "not_equal", "operand": true },
+            { "key": "auto_typography_quotes.is_enabled"},
             { "key": "auto_typography_quotes.valid_scope"},
         ],
     },
@@ -32,6 +34,8 @@
         },
         "context":
         [
+            { "key": "setting.is_widget", "operator": "not_equal", "operand": true },
+            { "key": "auto_typography_quotes.is_enabled"},
             { "key": "auto_typography_quotes.valid_scope"},
         ],
     },
@@ -41,6 +45,8 @@
         "args": { "file": "res://Packages/Default/Delete Left Right.sublime-macro" },
         "context":
         [
+            { "key": "setting.is_widget", "operator": "not_equal", "operand": true },
+            { "key": "auto_typography_quotes.is_enabled"},
             { "key": "auto_typography_quotes.valid_scope"},
             { "key": "auto_typography_quotes.inside_quotes"},
         ],
