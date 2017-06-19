@@ -10,6 +10,15 @@ default:
   - "<=": ≤
   - ">=": ≥
 
+quotes:
+  # every language contains an array with 4 entries:
+  # double-open, double-close, single-open, single-close
+  english: [“, ”, ‘, ’]
+  german: [„, “, ‚, ‘]
+  german-chevron: [», «, ›, ‹]
+  french: [«, », ‹, ›]
+
+
 # TODO profiles may be useful in the future to add user or language specific behavior
 profiles:
   latex:

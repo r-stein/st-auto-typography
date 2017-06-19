@@ -16,5 +16,33 @@
             { "key": "auto_typography.unpack_backwards"},
         ],
     },
-
+    {
+        "keys": ["\""],
+        "command": "auto_typography_quotes",
+        "context":
+        [
+            { "key": "auto_typography_quotes.valid_scope"},
+        ],
+    },
+    {
+        "keys": ["'"],
+        "command": "auto_typography_quotes",
+        "args": {
+            "single_quotes": true
+        },
+        "context":
+        [
+            { "key": "auto_typography_quotes.valid_scope"},
+        ],
+    },
+    {
+        "keys": ["backspace"],
+        "command": "run_macro_file",
+        "args": { "file": "res://Packages/Default/Delete Left Right.sublime-macro" },
+        "context":
+        [
+            { "key": "auto_typography_quotes.valid_scope"},
+            { "key": "auto_typography_quotes.inside_quotes"},
+        ],
+    },
 ]

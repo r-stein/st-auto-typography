@@ -1,3 +1,8 @@
 {
     "enable_scope": "text - text.tex, comment",
+
+    // The type of the quotes which should by inserted by default
+    "quote_type": "english",
+    // The scope where quotes should be translated
+    "quote_scope": "text - text.tex, comment",
 }
