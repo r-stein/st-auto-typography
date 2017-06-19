@@ -1,9 +1,12 @@
-import collections
 import operator as opi
 import re
 
 import sublime
 import sublime_plugin
+
+from .tranformations import (
+    get_transformation_map, get_inverse_transformation_map
+)
 
 opi_map = {
     sublime.OP_EQUAL: opi.eq,
@@ -15,26 +18,6 @@ opi_map = {
 }
 
 
-typography = {
-    "...": "…",
-    "--": "–",  # ndash
-    "–-": "—",  # mdash
-    "->": "→",
-    "→>": "↠",
-    "–>": "⟶",
-}
-
-
-transformation_char_map = collections.defaultdict(lambda: {})
-for k, v in typography.items():
-    char = k[-1:]
-    prefix = k[:-1]
-    transformation_char_map[char][prefix[::-1]] = v
-    transformation_char_map[""][k[::-1]] = v
-
-unpack_char_map = {v[::-1]: k for k, v in typography.items()}
-
-
 def replace_prefix(view, edit, iterator, insert_else=""):
     # ensure we can iterate several times if necessary
     if len(view.sel()) > 1:
@@ -44,8 +27,11 @@ def replace_prefix(view, edit, iterator, insert_else=""):
         line_before_reg = sublime.Region(view.line(pos).a, pos)
         line_before = view.substr(line_before_reg)[::-1]
         for prefix, value in iterator:
-            if line_before.startswith(prefix):
+            if len(value) == 0:
+                continue
+            elif line_before.startswith(prefix):
                 prefix_reg = sublime.Region(pos - len(prefix), pos)
+                value = value[0]
                 view.replace(edit, prefix_reg, value)
                 break
         else:
@@ -55,13 +41,14 @@ def replace_prefix(view, edit, iterator, insert_else=""):
 
 class AutoTypographyCommand(sublime_plugin.TextCommand):
     def run(self, edit, character=""):
-        iterator = transformation_char_map[character].items()
+        iterator = get_transformation_map()[character].items()
         replace_prefix(self.view, edit, iterator, character)
 
 
 class AutoTypographyUnpackCommand(sublime_plugin.TextCommand):
     def run(self, edit):
-        replace_prefix(self.view, edit, unpack_char_map.items())
+        iterator = get_inverse_transformation_map().items()
+        replace_prefix(self.view, edit, iterator)
 
 
 class AutoTypographyContextListener(sublime_plugin.EventListener):
@@ -91,7 +78,10 @@ class AutoTypographyContextListener(sublime_plugin.EventListener):
 
     def _ctx_unpack_backwards(self, view, sel, *args):
         char_before = self.__get_string_before(view, sel.b, "char")
-        result = any(char_before == uc_char for uc_char in unpack_char_map)
+        result = any(
+            char_before == uc_char
+            for uc_char in get_inverse_transformation_map()
+        )
         return result
 
     def _ctx_is_prefixed(self, view, sel, keys, *args):
@@ -99,7 +89,7 @@ class AutoTypographyContextListener(sublime_plugin.EventListener):
         line_before = self.__get_string_before(view, sel.b, "line")
         result = any(
             line_before.startswith(prefix)
-            for prefix in transformation_char_map[character]
+            for prefix in get_transformation_map()[character]
         )
         return result
 

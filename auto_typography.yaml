@@ -1,0 +1,20 @@
+default:
+  - "...": …
+  - "--": –
+  - "---": —
+  - "->": →
+  - "->>": ↠
+  - "-->": ⟶
+  - "<=": ⇐
+  - "=>": ⇒
+  - "<=": ≤
+  - ">=": ≥
+
+# TODO profiles may be useful in the future to add user or language specific behavior
+profiles:
+  latex:
+    additive: false
+    scope: text.tex.latex
+    mapping:
+      "--": "–"
+      "---": "—"
