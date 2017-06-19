@@ -4,7 +4,7 @@ import re
 import sublime
 import sublime_plugin
 
-from .tranformations import (
+from .transformations import (
     get_transformation_map, get_inverse_transformation_map
 )
 
