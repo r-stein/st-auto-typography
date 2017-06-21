@@ -4,23 +4,24 @@ import textwrap
 import sublime
 import sublime_plugin
 
-from .transformations import get_transformation_map
+from .utils.transformations import get_transformation_map
 
 
 format_str = textwrap.indent("""{
     "keys": ["<<character>>"], "command": "auto_typography",
     "args": {"character": "<<character>>"},
     "context": [
+        { "key": "auto_typography.is_enabled"},
         { "key": "auto_typography.valid_scope"},
         { "key": "auto_typography.is_prefixed.value=<<character>>"},
     ],
 },""", " " * 4)
 
 
-class AutoTypographyGenerateKeymapCommand(sublime_plugin.TextCommand):
-    def run(self, edit):
+class AutoTypographyGenerateKeymapCommand(sublime_plugin.WindowCommand):
+    def run(self):
         entries = []
-        for character in get_transformation_map():
+        for character in sorted(get_transformation_map()):
             if not character:
                 continue
             entries.append(format_str.replace("<<character>>", character))
@@ -35,3 +36,5 @@ class AutoTypographyGenerateKeymapCommand(sublime_plugin.TextCommand):
         target_path = os.path.join(target_path, "Default.sublime-keymap")
         with open(target_path, "w") as f:
             f.write(content)
+
+        self.window.open_file(target_path)

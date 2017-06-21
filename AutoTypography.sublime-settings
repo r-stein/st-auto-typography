@@ -1,13 +1,17 @@
 {
-    // The scope where the typograhic should be translated,
-    // (use "-" to disable the feature)
+    // Set this to false to enable auto typography (You can still enable it per view)
+    "enable": true,
+
+    // The scope where the typographic should be translated,
     "enable_scope": "text - text.tex, comment",
+
+    // Set this to false to disable the quotes
+    // You can also disable it by setting to quote type to "Disable"
+    "enable_quotes": true,
 
     // The type of the quotes which should by inserted by default
     "quote_type": "english",
+
     // The scope where quotes should be translated
     "quote_scope": "text - text.tex, comment",
-
-    // Set this to false to disable the quotes
-    "enable_quotes": true,
 }

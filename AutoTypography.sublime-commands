@@ -1,3 +1,8 @@
 [
-    { "caption": "AutoTypography: Set Quote Type", "command": "auto_typography_set_quote_types" }
+    { "caption": "AutoTypography: Set Quote Type", "command": "auto_typography_set_quote_types" },
+    { "caption": "AutoTypography: Generate Keymap", "command": "auto_typography_generate_keymap" },
+    { "caption": "AutoTypography: Enable", "command": "auto_typography_enable" },
+    { "caption": "AutoTypography: Disable", "command": "auto_typography_disable" },
+    { "caption": "AutoTypography: Pack", "command": "auto_typography" },
+    { "caption": "AutoTypography: Unpack", "command": "auto_typography_unpack" },
 ]

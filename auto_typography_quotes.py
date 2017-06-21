@@ -2,6 +2,7 @@ import sublime
 import sublime_plugin
 
 from .utils.contexts import AbstractAutoTypographyContext
+from .utils.settings import get_setting
 from .utils.transformations import load_resource
 
 
@@ -13,10 +14,7 @@ def get_quote_resource():
 
 
 def extract_quotes(view, return_quote_type=False):
-    quote_type = view.settings().get("auto_typograhy.quote_type")
-    if not quote_type:
-        settings = sublime.load_settings("AutoTypography.sublime-settings")
-        quote_type = settings.get("quote_type", "english")
+    quote_type = get_setting("quote_type", "english")
     quotes = get_quote_resource()[quote_type]
     if return_quote_type:
         return quotes, quote_type

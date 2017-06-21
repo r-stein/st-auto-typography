@@ -2,6 +2,7 @@ import sublime
 import sublime_plugin
 
 from .utils.contexts import AbstractAutoTypographyContext
+from .utils.settings import get_setting
 from .utils.transformations import (
     get_transformation_map, get_inverse_transformation_map
 )
@@ -40,12 +41,42 @@ class AutoTypographyUnpackCommand(sublime_plugin.TextCommand):
         replace_prefix(self.view, edit, iterator)
 
 
+class AutoTypographyEnableCommand(sublime_plugin.WindowCommand):
+    def is_visible(self, *args):
+        view = self.window.active_view()
+        scope = get_setting("enable_scope", "text")
+        if not any(view.score_selector(sel.b, scope) for sel in view.sel()):
+            return False
+        return not get_setting("enable", view=view)
+
+    def run(self):
+        view = self.window.active_view()
+        view.settings().set("auto_typography.enable", True)
+        sublime.status_message("AutoTypography enabled.")
+
+
+class AutoTypographyDisableCommand(sublime_plugin.WindowCommand):
+    def is_visible(self, *args):
+        view = self.window.active_view()
+        scope = get_setting("enable_scope", "text")
+        if not any(view.score_selector(sel.b, scope) for sel in view.sel()):
+            return False
+        return bool(get_setting("enable", view=view))
+
+    def run(self):
+        view = self.window.active_view()
+        view.settings().set("auto_typography.enable", False)
+        sublime.status_message("AutoTypography disabled.")
+
+
 class AutoTypographyContextListener(AbstractAutoTypographyContext):
     key_prefix = "auto_typography"
 
+    def _ctx_is_enabled(self, view, *args):
+        return bool(get_setting("enable", True, view=view))
+
     def _ctx_valid_scope(self, view, sel, *args):
-        settings = sublime.load_settings("AutoTypography.sublime-settings")
-        scope = settings.get("enable_scope", "text")
+        scope = get_setting("enable_scope", "text")
         return bool(view.score_selector(sel.b, scope))
 
     def _ctx_unpack_backwards(self, view, sel, *args):

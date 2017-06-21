@@ -12,8 +12,9 @@
         "command": "auto_typography_unpack",
         "context":
         [
-            { "key": "auto_typography.valid_scope"},
-            { "key": "auto_typography.unpack_backwards"},
+            { "key": "auto_typography.is_enabled" },
+            { "key": "auto_typography.valid_scope" },
+            { "key": "auto_typography.unpack_backwards" },
         ],
     },
     {
@@ -22,8 +23,8 @@
         "context":
         [
             { "key": "setting.is_widget", "operator": "not_equal", "operand": true },
-            { "key": "auto_typography_quotes.is_enabled"},
-            { "key": "auto_typography_quotes.valid_scope"},
+            { "key": "auto_typography_quotes.is_enabled" },
+            { "key": "auto_typography_quotes.valid_scope" },
         ],
     },
     {
@@ -35,8 +36,8 @@
         "context":
         [
             { "key": "setting.is_widget", "operator": "not_equal", "operand": true },
-            { "key": "auto_typography_quotes.is_enabled"},
-            { "key": "auto_typography_quotes.valid_scope"},
+            { "key": "auto_typography_quotes.is_enabled" },
+            { "key": "auto_typography_quotes.valid_scope" },
         ],
     },
     {
@@ -46,9 +47,9 @@
         "context":
         [
             { "key": "setting.is_widget", "operator": "not_equal", "operand": true },
-            { "key": "auto_typography_quotes.is_enabled"},
-            { "key": "auto_typography_quotes.valid_scope"},
-            { "key": "auto_typography_quotes.inside_quotes"},
+            { "key": "auto_typography_quotes.is_enabled" },
+            { "key": "auto_typography_quotes.valid_scope" },
+            { "key": "auto_typography_quotes.inside_quotes" },
         ],
     },
 ]
