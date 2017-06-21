@@ -1,0 +1,32 @@
+[
+    {
+        "caption": "Preferences",
+        "id": "preferences",
+        "mnemonic": "n",
+        "children":
+        [
+            {
+                "caption": "Package Settings",
+                "id": "package-settings",
+                "mnemonic": "P",
+                "children":
+                [
+                    {
+                        "caption": "AutoTypography",
+                        "children":
+                        [
+                            {
+                                "caption": "Settings",
+                                "command": "edit_settings", "args":
+                                {
+                                    "base_file": "${packages}/AutoTypography/AutoTypography.sublime-settings",
+                                    "default": "{\n\t$0\n}\n"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]
