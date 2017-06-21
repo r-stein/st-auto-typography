@@ -1,7 +1,7 @@
 import sublime
 import sublime_plugin
 
-from .utils.contexts import AbstractAutoTypographyContext
+from .utils.context import AbstractContext
 from .utils.settings import get_setting
 from .utils.transformations import (
     get_transformation_map, get_inverse_transformation_map
@@ -69,7 +69,7 @@ class AutoTypographyDisableCommand(sublime_plugin.WindowCommand):
         sublime.status_message("AutoTypography disabled.")
 
 
-class AutoTypographyContextListener(AbstractAutoTypographyContext):
+class AutoTypographyContextListener(AbstractContext):
     key_prefix = "auto_typography"
 
     def _ctx_is_enabled(self, view, *args):

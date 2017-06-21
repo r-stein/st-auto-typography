@@ -15,7 +15,7 @@ opi_map = {
 }
 
 
-class AbstractAutoTypographyContext(sublime_plugin.EventListener):
+class AbstractContext(sublime_plugin.EventListener):
     def on_query_context(self, view, key, operator, operand, match_all):
         try:
             prefix = self.key_prefix + "."

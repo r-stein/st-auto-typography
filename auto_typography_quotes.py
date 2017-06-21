@@ -1,7 +1,7 @@
 import sublime
 import sublime_plugin
 
-from .utils.contexts import AbstractAutoTypographyContext
+from .utils.context import AbstractContext
 from .utils.settings import get_setting
 from .utils.transformations import load_resource
 
@@ -14,7 +14,7 @@ def get_quote_resource():
 
 
 def extract_quotes(view, return_quote_type=False):
-    quote_type = get_setting("quote_type", "english")
+    quote_type = get_setting("quote_type", "english", view=view)
     quotes = get_quote_resource()[quote_type]
     if return_quote_type:
         return quotes, quote_type
@@ -23,11 +23,11 @@ def extract_quotes(view, return_quote_type=False):
 
 
 def set_quotes(view, quote_type):
-    view.settings().set("auto_typograhy.quote_type", quote_type)
+    view.settings().set("auto_typography.quote_type", quote_type)
 
 
 def has_word_separators(view, quote_type):
-    return view.settings().get("auto_typograhy.word_separators") == quote_type
+    return view.settings().get("auto_typography.word_separators") == quote_type
 
 
 def update_word_separators(view, quote_type):
@@ -40,7 +40,7 @@ def update_word_separators(view, quote_type):
             word_separators += quote
     if found:
         view.settings().set("word_separators", word_separators)
-    view.settings().set("auto_typograhy.word_separators", quote_type)
+    view.settings().set("auto_typography.word_separators", quote_type)
 
 
 class AutoTypographyQuotesCommand(sublime_plugin.TextCommand):
@@ -121,10 +121,12 @@ class AutoTypographySetQuoteTypesCommand(sublime_plugin.WindowCommand):
         elif view.settings().get("auto_typography.enable_quotes") is False:
             view.settings().erase("auto_typography.enable_quotes")
         quote_type = self.entries[index][0]
+        sublime.status_message(
+            "AutoTypography: Set quote type to '{}'".format(quote_type))
         set_quotes(view, quote_type)
 
 
-class AutoTypographyQuotesContext(AbstractAutoTypographyContext):
+class AutoTypographyQuotesContext(AbstractContext):
     key_prefix = "auto_typography_quotes"
 
     def _ctx_is_enabled(self, view, sel, *args):
